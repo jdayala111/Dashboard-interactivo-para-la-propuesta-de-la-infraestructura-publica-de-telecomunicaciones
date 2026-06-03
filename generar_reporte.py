@@ -10,9 +10,8 @@ def exportar_plataforma_telecom(csv1_path, csv2_path, template_path, output_name
         print("Error: Verifica que las rutas de los archivos CSV y de la plantilla HTML sean validas.")
         return
 
-    # 1. Carga de datos con codificacion Latin-1 y limpieza de columnas
-    df1 = pd.read_csv(csv1_path, encoding='latin-1')
-    df2 = pd.read_csv(csv2_path, encoding='latin-1')
+    df1 = pd.read_csv(csv1_path, encoding='utf-8', encoding_errors='replace', on_bad_lines='skip')
+    df2 = pd.read_csv(csv2_path, encoding='utf-8', encoding_errors='replace', on_bad_lines='skip')
     df1.columns = df1.columns.str.strip()
     df2.columns = df2.columns.str.strip()
 
@@ -28,11 +27,11 @@ def exportar_plataforma_telecom(csv1_path, csv2_path, template_path, output_name
     d2_dist_media = df2['dist_km'].mean()
     d2_total_proveedores = df2['proveedor'].nunique()
 
-    # 4. Lectura de la plantilla visual
+    # 4. Lectura de la plantilla visual en formato UTF-8
     with open(template_path, 'r', encoding='utf-8') as f:
         html_content = f.read()
 
-    # 5. Inyeccion de componentes - Pestaña 1
+    # 5. Inyeccion de componentes - Pestana 1
     html_content = html_content.replace("{{ d1_kpi_total }}", str(d1_total_torres))
     html_content = html_content.replace("{{ d1_kpi_beneficiados }}", str(d1_total_beneficiados))
     html_content = html_content.replace("{{ d1_kpi_distancia }}", f"{d1_dist_media:.2f}")
@@ -42,7 +41,7 @@ def exportar_plataforma_telecom(csv1_path, csv2_path, template_path, output_name
     html_content = html_content.replace("{{ d1_componente_dona }}", generar_dona_d1(df1))
     html_content = html_content.replace("{{ d1_componente_tabla }}", construir_tabla_d1(df1))
 
-    # 6. Inyeccion de componentes - Pestaña 2
+    # 6. Inyeccion de componentes - Pestana 2
     html_content = html_content.replace("{{ d2_kpi_total }}", str(d2_total_inst))
     html_content = html_content.replace("{{ d2_kpi_proximidad }}", f"{d2_dist_media:.2f}")
     html_content = html_content.replace("{{ d2_kpi_proveedores }}", str(d2_total_proveedores))
@@ -50,11 +49,11 @@ def exportar_plataforma_telecom(csv1_path, csv2_path, template_path, output_name
     html_content = html_content.replace("{{ d2_componente_histograma }}", generar_histograma_d2(df2))
     html_content = html_content.replace("{{ d2_componente_tabla }}", construir_tabla_d2(df2))
 
-    # 7. Escritura del informe final
+    # 7. Escritura explicita en UTF-8 puro
     with open(output_name, 'w', encoding='utf-8') as f:
         f.write(html_content)
         
-    print(f"Proceso concluido. Archivo guardado como: {output_name}")
+    print(f"Proceso concluido con exito. Archivo guardado como: {output_name}")
 
 if __name__ == "__main__":
     exportar_plataforma_telecom(

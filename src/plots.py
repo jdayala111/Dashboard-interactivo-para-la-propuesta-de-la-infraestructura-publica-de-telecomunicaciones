@@ -3,7 +3,6 @@ import plotly.express as px
 COLOR_TINTO = "#7D0042"
 COLOR_ORO = "#CC6C22"
 
-# --- GRAFÍCOS DATASET 1: TORRES PROPUESTAS ---
 def generar_mapa_d1(df) -> str:
     fig = px.scatter_mapbox(
         df,
@@ -33,7 +32,7 @@ def generar_barras_d1(df) -> str:
         df_agrupado,
         x="dependencia_torre_estatal",
         y="cantidad",
-        labels={"dependencia_torre_estatal": "Dependencia", "cantidad": "Número de Torres"},
+        labels={"dependencia_torre_estatal": "Dependencia", "cantidad": "Numero de Torres"},
         text_auto=True
     )
     fig.update_traces(marker_color=COLOR_TINTO, textposition="outside")
@@ -46,12 +45,9 @@ def generar_barras_d1(df) -> str:
     fig.update_yaxes(showgrid=True, gridcolor="#E5E7EB")
     return fig.to_html(full_html=False, include_plotlyjs='cdn')
 
-# Reemplaza exactamente esta funcion en src/plots.py
 def generar_dona_d1(df) -> str:
-    # Agrupamos los datos para estructurar el conteo de forma limpia
     df_dona = df['conexion_backhaul'].value_counts().reset_index(name='cantidad')
     
-    # Usamos color_discrete_sequence con los colores exactos en orden (Verde para Directa, Oro para Repetidor)
     fig = px.pie(
         df_dona,
         names="conexion_backhaul",
@@ -60,40 +56,46 @@ def generar_dona_d1(df) -> str:
         color_discrete_sequence=["#10B981", "#CC6C22"]
     )
     
+    # Ponemos las etiquetas y porcentajes integrados para eliminar la leyenda que se encimaba
+    fig.update_traces(textinfo='percent+label', textposition='inside')
+    
     fig.update_layout(
-        margin=dict(l=10, r=10, t=10, b=10), 
+        margin=dict(l=15, r=15, t=15, b=15), 
         height=350, 
         paper_bgcolor="rgba(0,0,0,0)",
-        showlegend=True
+        showlegend=False # Quitamos la caja de leyendas conflictiva
     )
-    
-    # Forzamos a ocultar cualquier texto residual de configuracion en el renderizado
     return fig.to_html(full_html=False, include_plotlyjs='cdn')
+    
+def limpiar_cadena_html(texto) -> str:
+    # Convierte a string y remueve residuos de caracteres corruptos de decodificación
+    return str(texto).replace('', '').strip()
 
-
-# Filtrar
-# Reemplaza la función construir_tabla_d1 en src/plots.py
 def construir_tabla_d1(df) -> str:
     html_rows = ""
     for _, row in df.iterrows():
         status_class = "badge-true" if row['linea_vista'] else "badge-false"
         status_text = "Directa" if row['linea_vista'] else "Obstruida"
         
+        grupo = limpiar_cadena_html(row['grupo']).upper()
+        nombre = limpiar_cadena_html(row['nombre'])
+        torre = limpiar_cadena_html(row['torre_estatal_cercana'])
+        dependencia = limpiar_cadena_html(row['dependencia_torre_estatal'])
+        
         html_rows += f"""
         <tr data-vista="{status_text}">
-            <td><strong>{str(row['grupo']).upper()}</strong></td>
-            <td>{row['nombre']}</td>
+            <td><strong>{grupo}</strong></td>
+            <td>{nombre}</td>
             <td>{row['dist_km_torre_estatal_mas_cercana']:.2f}</td>
             <td>{int(row['cantidad_instituciones'])}</td>
-            <td>{row['torre_estatal_cercana']} ({row['dependencia_torre_estatal']})</td>
+            <td>{torre} ({dependencia})</td>
             <td><span class="{status_class}">{status_text}</span></td>
         </tr>
         """
     return html_rows
 
 def generar_barras_d2(df) -> str:
-    # Tomamos los 10 proveedores principales para no saturar la pantalla
-    df_prov = df['proveedor'].value_counts().reset_index(name='cantidad')
+    df_prov = df['proveedor'].value_counts().head(10).reset_index(name='cantidad')
     fig = px.bar(
         df_prov,
         y="proveedor",
@@ -131,17 +133,18 @@ def generar_histograma_d2(df) -> str:
 
 def construir_tabla_d2(df) -> str:
     html_rows = ""
-    # Mostramos los primeros 100 registros en el HTML para mantener un rendimiento óptimo en la carga
     for _, row in df.head(100).iterrows():
-        id_inst = row.iloc[0]
-
+        id_inst = row.iloc[0] 
+        institucion = limpiar_cadena_html(row['institucion'])
+        proveedor = limpiar_cadena_html(row['proveedor']).upper()
+        torre = limpiar_cadena_html(row['torre_cercana'])
         
         html_rows += f"""
         <tr>
             <td>{id_inst}</td>
-            <td>{row['institucion']}</td>
-            <td><strong>{str(row['proveedor']).upper()}</strong></td>
-            <td>{row['torre_cercana']}</td>
+            <td>{institucion}</td>
+            <td><strong>{proveedor}</strong></td>
+            <td>{torre}</td>
             <td>{row['dist_km']:.2f}</td>
         </tr>
         """

@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Plataforma de Infraestructura y Telecomunicaciones</title>
     <style>
@@ -49,7 +50,6 @@
         }
 
         .tab-content { display: none; }
-        .tab-content.active { display: block; }
 
         .metrics-grid {
             display: grid;
@@ -83,70 +83,70 @@
     <div class="container">
         
         <div class="header-nav-container">
-            <div class="unison-header">Infraestructura Pública de Telecomunicaciones - Estado de Sonora</div>
+            <div class="unison-header">Infraestructura Publica de Telecomunicaciones - Estado de Sonora</div>
             <div class="tabs-menu">
-                <button class="tab-button active" onclick="switchTab('dataset1')">Propuesta de Infraestructura</button>
-                <button class="tab-button" onclick="switchTab('dataset2')">Plan de Migración</button>
+                <button class="tab-button" onclick="switchTab('dataset1')">Propuesta de Infraestructura</button>
+                <button class="tab-button" onclick="switchTab('dataset2')">Plan de Migracion</button>
             </div>
         </div>
         
-        <div id="dataset1" class="tab-content active">
+        <div id="dataset1" class="tab-content">
             <div class="metrics-grid">
-                <div class="metric-card"><div class="metric-label">Torres Propuestas</div><div class="metric-value">{{ d1_kpi_total }} Clústeres</div></div>
-                <div class="metric-card"><div class="metric-label">Sitios Beneficiados</div><div class="metric-value">{{ d1_kpi_beneficiados }} Instituciones</div></div>
+                <div class="metric-card"><div class="metric-label">Torres Propuestas</div><div class="metric-value">{{ d1_kpi_total }} Clusteres</div></div>
+                <div class="metric-card"><div class="metric-label">Sitios Beneficiados</div><div class="metric-value">{{ d1_kpi_beneficiados }} Unidades</div></div>
                 <div class="metric-card"><div class="metric-label">Distancia Media a Red</div><div class="metric-value">{{ d1_kpi_distancia }} km</div></div>
-                <div class="metric-card"><div class="metric-label">Línea de Vista Directa</div><div class="metric-value">{{ d1_kpi_vista }}</div></div>
+                <div class="metric-card"><div class="metric-label">Linea de Vista Directa</div><div class="metric-value">{{ d1_kpi_vista }}</div></div>
             </div>
 
             <div class="full-width-block">
-                <div class="section-title">Geolocalización de Clústeres Estratégicos</div>
+                <div class="section-title">Geolocalizacion de Clusteres Estrategicos</div>
                 {{ d1_componente_mapa }}
             </div>
 
             <div class="row">
                 <div class="col"><div class="section-title">Dependencia de Torres Estatales Cercanas</div>{{ d1_componente_barras }}</div>
-                <div class="col"><div class="section-title">Viabilidad de Zonas para el despliegue por Linea de Vista</div>{{ d1_componente_dona }}</div>
+                <div class="col"><div class="section-title">Viabilidad de Conexion Backhaul</div>{{ d1_componente_dona }}</div>
             </div>
-            
-<div class="full-width-block">
-    <div class="section-title">Inventario de Clústeres y Torres de Interconexión</div>
-    
-    <div style="display: flex; gap: 15px; margin-bottom: 15px; background-color: #F9F6F4; padding: 10px; border-radius: 4px; border: 1px solid #E5E7EB;">
-        <div style="flex: 1;">
-            <label for="orden-instituciones" style="font-size: 12px; font-weight: 600; color: #4C4C4C; display: block; margin-bottom: 5px; text-transform: uppercase;">Ordenar por Instituciones en Clúster:</label>
-            <select id="orden-instituciones" onchange="procesarTablaD1()" style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #E5E7EB; font-weight: 600;">
-                <option value="desc">Mayor a Menor</option>
-                <option value="asc">Menor a Mayor</option>
-            </select>
-        </div>
-        <div style="flex: 1;">
-            <label for="filtro-vista" style="font-size: 12px; font-weight: 600; color: #4C4C4C; display: block; margin-bottom: 5px; text-transform: uppercase;">Filtrar por Línea de Vista:</label>
-            <select id="filtro-vista" onchange="procesarTablaD1()" style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #E5E7EB; font-weight: 600;">
-                <option value="todos">Todas las condiciones</option>
-                <option value="Directa">Directa (Disponible)</option>
-                <option value="Obstruida">Obstruida</option>
-            </select>
-        </div>
-    </div>
 
-    <div class="table-container">
-        <table id="tabla-infraestructura">
-            <thead>
-                <tr>
-                    <th>Sector</th>
-                    <th>Nombre del Sitio Clave</th>
-                    <th>Distancia (km)</th>
-                    <th>Instituciones en Clúster</th>
-                    <th>Torre de Interconexión</th>
-                    <th>Línea de Vista</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{ d1_componente_tabla }}
-            </tbody>
-        </table>
-    </div>
-</div>
+            <div class="full-width-block">
+                <div class="section-title">Inventario de Clusteres y Torres de Interconexion</div>
+                
+                <div style="display: flex; gap: 15px; margin-bottom: 15px; background-color: #F9F6F4; padding: 10px; border-radius: 4px; border: 1px solid #E5E7EB;">
+                    <div style="flex: 1;">
+                        <label for="orden-instituciones" style="font-size: 12px; font-weight: 600; color: #4C4C4C; display: block; margin-bottom: 5px; text-transform: uppercase;">Ordenar por Instituciones en Cluster:</label>
+                        <select id="orden-instituciones" onchange="procesarTablaD1()" style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #E5E7EB; font-weight: 600;">
+                            <option value="desc">Mayor a Menor</option>
+                            <option value="asc">Menor a Mayor</option>
+                        </select>
+                    </div>
+                    <div style="flex: 1;">
+                        <label for="filtro-vista" style="font-size: 12px; font-weight: 600; color: #4C4C4C; display: block; margin-bottom: 5px; text-transform: uppercase;">Filtrar por Linea de Vista:</label>
+                        <select id="filtro-vista" onchange="procesarTablaD1()" style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #E5E7EB; font-weight: 600;">
+                            <option value="todos">Todas las condiciones</option>
+                            <option value="Directa">Directa</option>
+                            <option value="Obstruida">Obstruida</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table id="tabla-infraestructura">
+                        <thead>
+                            <tr>
+                                <th>Sector</th>
+                                <th>Nombre del Sitio Clave</th>
+                                <th>Distancia (km)</th>
+                                <th>Instituciones en Cluster</th>
+                                <th>Torre de Interconexion</th>
+                                <th>Linea de Vista</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{ d1_componente_tabla }}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
 
         <div id="dataset2" class="tab-content">
@@ -157,20 +157,20 @@
             </div>
 
             <div class="row">
-                <div class="col"><div class="section-title">Distribución de Contratos por Proveedor Privado</div>{{ d2_componente_barras }}</div>
+                <div class="col"><div class="section-title">Distribucion de Contratos por Proveedor Privado</div>{{ d2_componente_barras }}</div>
                 <div class="col"><div class="section-title">Proximidad de las Instituciones a la Red (Rangos en km)</div>{{ d2_componente_histograma }}</div>
             </div>
 
             <div class="full-width-block">
-                <div class="section-title">Padrón de Instituciones Candidatas a Migración Directa</div>
+                <div class="section-title">Padron de Instituciones Candidatas a Migracion Directa</div>
                 <div class="table-container">
                     <table>
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Nombre de la Institución</th>
+                                <th>Nombre de la Institucion</th>
                                 <th>Proveedor Actual</th>
-                                <th>Torre más Cercana</th>
+                                <th>Torre mas Cercana</th>
                                 <th>Distancia (km)</th>
                             </tr>
                         </thead>
@@ -185,65 +185,61 @@
     </div>
 
     <script>
-// Reemplaza todo el bloque <script> del final de src/template.html con este
-function switchTab(tabId) {
-    const contents = document.querySelectorAll('.tab-content');
-    contents.forEach(content => content.style.display = 'none');
+        function switchTab(tabId) {
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.style.display = 'none');
 
-    const buttons = document.querySelectorAll('.tab-button');
-    buttons.forEach(button => button.classList.remove('active'));
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => button.classList.remove('active'));
 
-    document.getElementById(tabId).style.display = 'block';
-    if (event && event.currentTarget) {
-        event.currentTarget.classList.add('active');
-    }
-    
-    window.dispatchEvent(new Event('resize'));
-}
-
-function procesarTablaD1() {
-    const orden = document.getElementById('orden-instituciones').value;
-    const filtroVista = document.getElementById('filtro-vista').value;
-    const tbody = document.querySelector('#tabla-infraestructura tbody');
-    if (!tbody) return;
-    
-    const filas = Array.from(tbody.querySelectorAll('tr'));
-
-    // 1. Fase de Filtrado por Línea de Vista
-    filas.forEach(fila => {
-        const vistaFila = fila.getAttribute('data-vista');
-        if (filtroVista === 'todos' || vistaFila === filtroVista) {
-            fila.style.display = '';
-        } else {
-            fila.style.display = 'none';
+            document.getElementById(tabId).style.display = 'block';
+            
+            const currentBtn = Array.from(buttons).find(btn => btn.getAttribute('onclick').includes(tabId));
+            if (currentBtn) {
+                currentBtn.classList.add('active');
+            }
+            
+            window.dispatchEvent(new Event('resize'));
         }
-    });
 
-    // 2. Fase de Ordenamiento Numérico por la columna "Instituciones en Clúster"
-    filas.sort((a, b) => {
-        // cells[3] corresponde exactamente a la cuarta columna de la tabla (Instituciones en Clúster)
-        const celdaA = a.cells[3] ? a.cells[3].innerText : "0";
-        const celdaB = b.cells[3] ? b.cells[3].innerText : "0";
-        
-        const valA = parseInt(celdaA.trim(), 10) || 0;
-        const valB = parseInt(celdaB.trim(), 10) || 0;
-        
-        if (orden === 'asc') {
-            return valA - valB; // Menor a Mayor (5, 6, 8, 9...)
-        } else {
-            return valB - valA; // Mayor a Menor (...9, 8, 6, 5)
+        function procesarTablaD1() {
+            const orden = document.getElementById('orden-instituciones').value;
+            const filtroVista = document.getElementById('filtro-vista').value;
+            const tbody = document.querySelector('#tabla-infraestructura tbody');
+            if (!tbody) return;
+            
+            const filas = Array.from(tbody.querySelectorAll('tr'));
+
+            filas.forEach(fila => {
+                const vistaFila = fila.getAttribute('data-vista');
+                if (filtroVista === 'todos' || vistaFila === filtroVista) {
+                    fila.style.display = '';
+                } else {
+                    fila.style.display = 'none';
+                }
+            });
+
+            filas.sort((a, b) => {
+                const celdaA = a.cells[3] ? a.cells[3].innerText : "0";
+                const celdaB = b.cells[3] ? b.cells[3].innerText : "0";
+                
+                const valA = parseInt(celdaA.trim(), 10) || 0;
+                const valB = parseInt(celdaB.trim(), 10) || 0;
+                
+                if (orden === 'asc') {
+                    return valA - valB;
+                } else {
+                    return valB - valA;
+                }
+            });
+
+            filas.forEach(fila => tbody.appendChild(fila));
         }
-    });
 
-    // 3. Reordenar físicamente los elementos en el documento web
-    filas.forEach(fila => tbody.appendChild(fila));
-}
-
-// Inicialización correcta al cargar el documento
-document.addEventListener('DOMContentLoaded', () => {
-    switchTab('dataset1');
-    procesarTablaD1();
-});
+        document.addEventListener('DOMContentLoaded', () => {
+            switchTab('dataset1');
+            procesarTablaD1();
+        });
     </script>
 </body>
 </html>
