@@ -943,7 +943,7 @@ function applyAllFilters() {
         let matchText = !q || `${row.nombre} ${row.municipio} ${row.grupo_institucion}`.toLowerCase().includes(q);
         let matchMun = vMun === 'all' || normalizeText(row.municipio) === vMun;
         let matchSec = vSec === 'all' || normalizeText(row.grupo_institucion) === vSec;
-        let matchIpc = vIpc === 'all' || String(row.ipc).includes(vIpc);
+        let matchIpc = vIpc === 'all' || String(row.ipc).toUpperCase().includes(String(vIpc).toUpperCase());
         return matchText && matchMun && matchSec && matchIpc;
     });
 
