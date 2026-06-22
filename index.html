@@ -4,13 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plataforma de Infraestructura Pública de Telecomunicaciones</title>
+    <meta name="description" content="Plataforma interactiva de infraestructura pública de telecomunicaciones del Estado de Sonora. Visualiza torres, clústeres estratégicos y planes de migración.">
+    <title>Plataforma de Infraestructura Pública de Telecomunicaciones — Estado de Sonora</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
-    <!-- Google Fonts -->
+    <!-- Google Fonts: Outfit (titles) + Inter (body) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -25,7 +26,7 @@
     <!-- Loading Overlay -->
     <div id="loadingOverlay" class="loading-overlay">
         <div class="spinner"></div>
-        <div class="loading-text">Cargando datos de infraestructura...</div>
+        <div class="loading-text">Cargando datos de infraestructura…</div>
     </div>
 
     <!-- Header Institucional -->
@@ -40,21 +41,29 @@
                     </svg></div>
                 <div class="header-titles">
                     <h1>Plataforma de Infraestructura Pública</h1>
-                    <p>Estado de Sonora</p>
+                    <p>Estado de Sonora · Sistema de Telecomunicaciones</p>
                 </div>
             </div>
         </div>
         <div class="header-accent"></div>
     </header>
 
-    <!-- Navegación y Búsqueda -->
+    <!-- Navegación -->
     <nav class="nav-bar">
         <div class="nav-inner">
             <div class="tabs-menu">
-                <button class="tab-button active" onclick="switchTab('dataset1')" id="btn-tab-1">Propuesta de
-                    Infraestructura</button>
-                <button class="tab-button" onclick="switchTab('dataset2')" id="btn-tab-2">Plan de Migración</button>
-                <button class="tab-button" onclick="switchTab('dataset3')" id="btn-tab-3">Padrón General</button>
+                <button class="tab-button active" onclick="switchTab('dataset1')" id="btn-tab-1">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2"></circle><path d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49"></path></svg>
+                    Propuesta de Infraestructura
+                </button>
+                <button class="tab-button" onclick="switchTab('dataset2')" id="btn-tab-2">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                    Plan de Migración
+                </button>
+                <button class="tab-button" onclick="switchTab('dataset3')" id="btn-tab-3">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"></line><line x1="18" y1="20" x2="18" y2="4"></line><line x1="6" y1="20" x2="6" y2="16"></line></svg>
+                    Padrón General
+                </button>
             </div>
         </div>
     </nav>
@@ -62,21 +71,20 @@
     <!-- Contenido Principal -->
     <main class="main-content">
 
-        <!-- Info general del proyecto -->
-        <div class="info-box" style="margin-bottom: 24px;">
-            <div class="info-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        <!-- Info general del proyecto (siempre visible) -->
+        <div class="hero-banner">
+            <div class="hero-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="12" r="10"></circle>
                     <path d="M12 16v-4"></path>
                     <path d="M12 8h.01"></path>
                 </svg></div>
-            <div class="info-content">
-                <p><strong>Objetivo del proyecto:</strong> Optimizar el uso de la infraestructura pública para dotar de
-                    internet a instituciones públicas.</p>
-                <p>El análisis clasifica a las instituciones en un <strong>Índice de Prioridad de Conectividad
-                        (IPC)</strong>. Aquí se presentan estrategias para migrar instituciones de Nivel 2 a la red
-                    estatal (ahorrando costos) y proponer nueva infraestructura para instituciones de Nivel 3 (sin
-                    conectividad).</p>
+            <div class="hero-content">
+                <h2>Objetivo del Proyecto</h2>
+                <p>Optimizar el uso de la infraestructura pública para dotar de internet a instituciones públicas.
+                    El análisis clasifica a las instituciones en un <strong>Índice de Prioridad de Conectividad
+                        (IPC)</strong>. Se presentan estrategias para migrar instituciones de Nivel 2 a la red
+                    estatal y proponer nueva infraestructura para instituciones de Nivel 3.</p>
             </div>
         </div>
 
@@ -85,22 +93,20 @@
              ═══════════════════════════════════════════════ -->
         <div id="dataset1" class="tab-content active">
 
-            <div class="info-box">
-                <div class="info-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            <!-- Contexto de la pestaña -->
+            <div class="tab-context">
+                <div class="tab-context-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="12" cy="12" r="10"></circle>
                         <circle cx="12" cy="12" r="6"></circle>
                         <circle cx="12" cy="12" r="2"></circle>
                     </svg></div>
-                <div class="info-content">
-                    <p><strong>Estrategia para Instituciones Nivel 3:</strong> Despliegue de nuevas torres. Se
-                        identificaron zonas prioritarias agrupando mínimo 5 instituciones sin conectividad en un radio
-                        de 10 km. La viabilidad técnica se validó analizando la línea de vista directa (LoS) con modelos
-                        de elevación del INEGI.</p>
-                </div>
+                <p><strong>Estrategia para Instituciones Nivel 3:</strong> Despliegue de nuevas torres. Se
+                    identificaron zonas prioritarias agrupando mínimo 5 instituciones sin conectividad en un radio
+                    de 10 km. La viabilidad técnica se validó con modelos de elevación del INEGI.</p>
             </div>
 
-            <!-- KPIs -->
+            <!-- KPIs en fila -->
             <div class="kpi-grid">
                 <div class="kpi-card">
                     <div class="kpi-icon primary"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -111,13 +117,10 @@
                             </path>
                         </svg></div>
                     <div class="kpi-info">
-                        <div class="kpi-label">
-                            Torres Propuestas
-                            <div class="tooltip">?<span class="tooltip-text">Grupos de instituciones (clústeres) donde
-                                    se propone instalar nueva infraestructura estatal.</span></div>
+                        <div class="kpi-label">Torres Propuestas
+                            <span class="tooltip-trigger" tabindex="0" aria-label="Más información">?<span class="tooltip-text">Grupos de instituciones (clústeres) donde se propone instalar nueva infraestructura estatal.</span></span>
                         </div>
-                        <div class="kpi-value"><span id="d1-kpi-torres">0</span><span class="kpi-unit">Clústeres</span>
-                        </div>
+                        <div class="kpi-value"><span id="d1-kpi-torres">0</span><span class="kpi-unit">Clústeres</span></div>
                     </div>
                 </div>
                 <div class="kpi-card">
@@ -130,14 +133,10 @@
                             <path d="M12 2l10 5H2z"></path>
                         </svg></div>
                     <div class="kpi-info">
-                        <div class="kpi-label">
-                            Sitios Beneficiados
-                            <div class="tooltip">?<span class="tooltip-text">Número total de escuelas, hospitales y
-                                    oficinas gubernamentales que obtendrían conectividad con esta propuesta.</span>
-                            </div>
+                        <div class="kpi-label">Sitios Beneficiados
+                            <span class="tooltip-trigger" tabindex="0" aria-label="Más información">?<span class="tooltip-text">Número total de escuelas, hospitales y oficinas gubernamentales que obtendrían conectividad con esta propuesta.</span></span>
                         </div>
-                        <div class="kpi-value"><span id="d1-kpi-sitios">0</span><span class="kpi-unit">Unidades</span>
-                        </div>
+                        <div class="kpi-value"><span id="d1-kpi-sitios">0</span><span class="kpi-unit">Unidades</span></div>
                     </div>
                 </div>
                 <div class="kpi-card">
@@ -148,10 +147,8 @@
                             <circle cx="18" cy="5" r="3" />
                         </svg></div>
                     <div class="kpi-info">
-                        <div class="kpi-label">
-                            Distancia Media
-                            <div class="tooltip">?<span class="tooltip-text">Distancia promedio desde las instituciones
-                                    del clúster hasta la torre estatal de interconexión más cercana.</span></div>
+                        <div class="kpi-label">Distancia Media
+                            <span class="tooltip-trigger" tabindex="0" aria-label="Más información">?<span class="tooltip-text">Distancia promedio desde las instituciones del clúster hasta la torre estatal de interconexión más cercana.</span></span>
                         </div>
                         <div class="kpi-value"><span id="d1-kpi-dist">0</span><span class="kpi-unit">km</span></div>
                     </div>
@@ -163,62 +160,63 @@
                             <circle cx="12" cy="12" r="3"></circle>
                         </svg></div>
                     <div class="kpi-info">
-                        <div class="kpi-label">
-                            Línea de Vista
-                            <div class="tooltip">?<span class="tooltip-text">Porcentaje de las torres propuestas que
-                                    cuentan con conexión libre y directa (sin obstáculos topográficos).</span></div>
+                        <div class="kpi-label">Línea de Vista
+                            <span class="tooltip-trigger" tabindex="0" aria-label="Más información">?<span class="tooltip-text">Porcentaje de las torres propuestas que cuentan con conexión libre y directa (sin obstáculos topográficos).</span></span>
                         </div>
                         <div class="kpi-value"><span id="d1-kpi-vista">0</span><span class="kpi-unit">%</span></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Mapa -->
-            <div class="chart-card full-width">
-                <div class="chart-header">
-                    <h3><span class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                                <circle cx="12" cy="10" r="3"></circle>
-                            </svg></span> Geolocalización de Clústeres Estratégicos</h3>
-                </div>
-                <div class="section-body" style="padding: 0;">
-                    <div class="map-container">
-                        <div id="map-torres"></div>
+            <!-- LAYOUT: Mapa + Gráficas lado a lado -->
+            <div class="dashboard-grid-main">
+                <!-- Mapa (protagonista) -->
+                <div class="chart-card map-card">
+                    <div class="chart-header">
+                        <h3><span class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                    <circle cx="12" cy="10" r="3"></circle>
+                                </svg></span> Geolocalización de Clústeres Estratégicos</h3>
+                    </div>
+                    <div class="section-body" style="padding: 0;">
+                        <div class="map-container">
+                            <div id="map-torres"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Gráficas D1 -->
-            <div class="two-col">
-                <div class="chart-card">
-                    <div class="chart-header">
-                        <h3><span class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round">
-                                    <line x1="12" y1="20" x2="12" y2="10"></line>
-                                    <line x1="18" y1="20" x2="18" y2="4"></line>
-                                    <line x1="6" y1="20" x2="6" y2="16"></line>
-                                </svg></span> Dependencia de Torres Estatales</h3>
+                <!-- Panel lateral de gráficas -->
+                <div class="side-charts">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3><span class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <line x1="12" y1="20" x2="12" y2="10"></line>
+                                        <line x1="18" y1="20" x2="18" y2="4"></line>
+                                        <line x1="6" y1="20" x2="6" y2="16"></line>
+                                    </svg></span> Dependencia de Torres</h3>
+                        </div>
+                        <div class="chart-wrapper chart-wrapper-sm">
+                            <canvas id="chart-dependencia"></canvas>
+                        </div>
                     </div>
-                    <div class="chart-wrapper">
-                        <canvas id="chart-dependencia"></canvas>
-                    </div>
-                </div>
-                <div class="chart-card">
-                    <div class="chart-header">
-                        <h3><span class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round">
-                                    <path d="M2 20h.01"></path>
-                                    <path d="M7 20v-4"></path>
-                                    <path d="M12 20v-8"></path>
-                                    <path d="M17 20V8"></path>
-                                    <path d="M22 4v16"></path>
-                                </svg></span> Viabilidad de Conexión Backhaul</h3>
-                    </div>
-                    <div class="chart-wrapper">
-                        <canvas id="chart-backhaul"></canvas>
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3><span class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="M2 20h.01"></path>
+                                        <path d="M7 20v-4"></path>
+                                        <path d="M12 20v-8"></path>
+                                        <path d="M17 20V8"></path>
+                                        <path d="M22 4v16"></path>
+                                    </svg></span> Viabilidad Backhaul</h3>
+                        </div>
+                        <div class="chart-wrapper chart-wrapper-sm">
+                            <canvas id="chart-backhaul"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -253,15 +251,10 @@
                         <label class="filter-label" for="d1-filter-dependencia">Dependencia</label>
                         <select id="d1-filter-dependencia" class="filter-select" onchange="renderTableD1()">
                             <option value="all">Todas las dependencias</option>
-                            <!-- Llenado dinámico -->
                         </select>
                     </div>
                     <button class="btn-reset" onclick="resetFilters('d1')">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
-                            <path d="M3 3v5h5" />
-                        </svg>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" /><path d="M3 3v5h5" /></svg>
                         Restablecer
                     </button>
                 </div>
@@ -271,25 +264,17 @@
                         <thead>
                             <tr>
                                 <th onclick="sortTableD1('grupo')">Sector <span class="sort-arrow">▼</span></th>
-                                <th onclick="sortTableD1('nombre')">Nombre del Sitio <span class="sort-arrow">▼</span>
-                                </th>
+                                <th onclick="sortTableD1('nombre')">Nombre del Sitio <span class="sort-arrow">▼</span></th>
                                 <th onclick="sortTableD1('dist')">Distancia (km) <span class="sort-arrow">▼</span></th>
                                 <th onclick="sortTableD1('inst')">Instituciones <span class="sort-arrow">▼</span></th>
-                                <th onclick="sortTableD1('torre')">Torre de Interconexión <span
-                                        class="sort-arrow">▼</span></th>
+                                <th onclick="sortTableD1('torre')">Torre de Interconexión <span class="sort-arrow">▼</span></th>
                                 <th onclick="sortTableD1('vista')">Línea de Vista <span class="sort-arrow">▼</span></th>
                             </tr>
                         </thead>
-                        <tbody id="tbody-d1">
-                            <!-- Llenado dinámico -->
-                        </tbody>
+                        <tbody id="tbody-d1"></tbody>
                     </table>
                     <div id="empty-d1" class="empty-state" style="display: none;">
-                        <div class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="11" cy="11" r="8"></circle>
-                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                            </svg></div>
+                        <div class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></div>
                         <p>No se encontraron resultados</p>
                         <small>Intenta ajustando los filtros o la búsqueda</small>
                     </div>
@@ -307,25 +292,23 @@
              ═══════════════════════════════════════════════ -->
         <div id="dataset2" class="tab-content">
 
-            <div class="info-box">
-                <div class="info-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            <div class="tab-context tab-context--gold">
+                <div class="tab-context-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <polyline points="23 4 23 10 17 10"></polyline>
                         <polyline points="1 20 1 14 7 14"></polyline>
                         <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
                     </svg></div>
-                <div class="info-content">
+                <div>
                     <p><strong>Estrategia para Instituciones Nivel 2:</strong> Migración a torres estatales. Se
                         identificaron instituciones que pagan internet privado (costo prom. $1,300 MXN mensuales) pero
                         se ubican a menos de 10 km de la infraestructura estatal.</p>
-                    <p>La migración de estas instituciones representa un ahorro potencial anual superior a los
-                        <strong>$25 millones de pesos</strong>.
-                    </p>
+                    <p>La migración representa un ahorro potencial anual superior a los <strong>$25 millones de pesos</strong>.</p>
                 </div>
             </div>
 
             <!-- KPIs -->
-            <div class="kpi-grid">
+            <div class="kpi-grid kpi-grid--3">
                 <div class="kpi-card">
                     <div class="kpi-icon accent"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -336,13 +319,10 @@
                             <path d="M12 2l10 5H2z"></path>
                         </svg></div>
                     <div class="kpi-info">
-                        <div class="kpi-label">
-                            Candidatas a Migrar
-                            <div class="tooltip">?<span class="tooltip-text">Número de instituciones de Nivel 2 que
-                                    podrían migrar inmediatamente a infraestructura estatal.</span></div>
+                        <div class="kpi-label">Candidatas a Migrar
+                            <span class="tooltip-trigger" tabindex="0">?<span class="tooltip-text">Número de instituciones de Nivel 2 que podrían migrar inmediatamente a infraestructura estatal.</span></span>
                         </div>
-                        <div class="kpi-value"><span id="d2-kpi-inst">0</span><span class="kpi-unit">Unidades</span>
-                        </div>
+                        <div class="kpi-value"><span id="d2-kpi-inst">0</span><span class="kpi-unit">Unidades</span></div>
                     </div>
                 </div>
                 <div class="kpi-card">
@@ -353,10 +333,8 @@
                             <circle cx="18" cy="5" r="3" />
                         </svg></div>
                     <div class="kpi-info">
-                        <div class="kpi-label">
-                            Proximidad Media
-                            <div class="tooltip">?<span class="tooltip-text">Distancia promedio entre estas
-                                    instituciones y la torre estatal más cercana.</span></div>
+                        <div class="kpi-label">Proximidad Media
+                            <span class="tooltip-trigger" tabindex="0">?<span class="tooltip-text">Distancia promedio entre estas instituciones y la torre estatal más cercana.</span></span>
                         </div>
                         <div class="kpi-value"><span id="d2-kpi-prox">0</span><span class="kpi-unit">km</span></div>
                     </div>
@@ -370,13 +348,10 @@
                             <line x1="12" y1="20" x2="12.01" y2="20"></line>
                         </svg></div>
                     <div class="kpi-info">
-                        <div class="kpi-label">
-                            Proveedores Identificados
-                            <div class="tooltip">?<span class="tooltip-text">Cantidad de empresas privadas a las que el
-                                    Estado les paga contratos de arrendamiento por servicio de internet.</span></div>
+                        <div class="kpi-label">Proveedores Identificados
+                            <span class="tooltip-trigger" tabindex="0">?<span class="tooltip-text">Cantidad de empresas privadas a las que el Estado les paga contratos de arrendamiento por servicio de internet.</span></span>
                         </div>
-                        <div class="kpi-value"><span id="d2-kpi-prov">0</span><span class="kpi-unit">Empresas</span>
-                        </div>
+                        <div class="kpi-value"><span id="d2-kpi-prov">0</span><span class="kpi-unit">Empresas</span></div>
                     </div>
                 </div>
             </div>
@@ -385,20 +360,15 @@
             <div class="two-col">
                 <div class="chart-card">
                     <div class="chart-header">
-                        <h3><span class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        <h3><span class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
                                     stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round">
                                     <rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect>
                                     <path d="M9 22v-4h6v4"></path>
-                                    <path d="M8 6h.01"></path>
-                                    <path d="M16 6h.01"></path>
-                                    <path d="M12 6h.01"></path>
-                                    <path d="M12 10h.01"></path>
-                                    <path d="M12 14h.01"></path>
-                                    <path d="M16 10h.01"></path>
-                                    <path d="M16 14h.01"></path>
-                                    <path d="M8 10h.01"></path>
-                                    <path d="M8 14h.01"></path>
+                                    <path d="M8 6h.01"></path><path d="M16 6h.01"></path><path d="M12 6h.01"></path>
+                                    <path d="M12 10h.01"></path><path d="M12 14h.01"></path>
+                                    <path d="M16 10h.01"></path><path d="M16 14h.01"></path>
+                                    <path d="M8 10h.01"></path><path d="M8 14h.01"></path>
                                 </svg></span> Contratos por Proveedor Privado</h3>
                     </div>
                     <div class="chart-wrapper">
@@ -407,7 +377,7 @@
                 </div>
                 <div class="chart-card">
                     <div class="chart-header">
-                        <h3><span class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        <h3><span class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
                                     stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round">
                                     <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
@@ -425,8 +395,7 @@
                 <div class="table-header">
                     <h3><span class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2">
-                                </path>
+                                <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
                                 <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
                             </svg></span> Padrón de Instituciones Candidatas a Migración</h3>
                 </div>
@@ -434,23 +403,14 @@
                 <div class="filters-bar">
                     <div class="filter-group">
                         <label class="filter-label" for="d2-filter-mun">Municipio</label>
-                        <select id="d2-filter-mun" class="filter-select">
-                            <option value="all">Todos los municipios</option>
-                        </select>
+                        <select id="d2-filter-mun" class="filter-select"><option value="all">Todos los municipios</option></select>
                     </div>
                     <div class="filter-group">
                         <label class="filter-label" for="d2-filter-prov">Proveedor Actual</label>
-                        <select id="d2-filter-prov" class="filter-select">
-                            <option value="all">Todos los proveedores</option>
-                            <!-- Llenado dinámico -->
-                        </select>
+                        <select id="d2-filter-prov" class="filter-select"><option value="all">Todos los proveedores</option></select>
                     </div>
                     <button class="btn-reset" onclick="resetFilters('d2')">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
-                            <path d="M3 3v5h5" />
-                        </svg>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" /><path d="M3 3v5h5" /></svg>
                         Restablecer
                     </button>
                 </div>
@@ -460,25 +420,17 @@
                         <thead>
                             <tr>
                                 <th onclick="sortTableD2('id')">ID <span class="sort-arrow">▼</span></th>
-                                <th onclick="sortTableD2('institucion')">Institución <span class="sort-arrow">▼</span>
-                                </th>
+                                <th onclick="sortTableD2('institucion')">Institución <span class="sort-arrow">▼</span></th>
                                 <th onclick="sortTableD2('municipio')">Municipio <span class="sort-arrow">▼</span></th>
                                 <th onclick="sortTableD2('proveedor')">Proveedor <span class="sort-arrow">▼</span></th>
-                                <th onclick="sortTableD2('torre')">Torre más Cercana <span class="sort-arrow">▼</span>
-                                </th>
+                                <th onclick="sortTableD2('torre')">Torre más Cercana <span class="sort-arrow">▼</span></th>
                                 <th onclick="sortTableD2('dist')">Distancia (km) <span class="sort-arrow">▼</span></th>
                             </tr>
                         </thead>
-                        <tbody id="tbody-d2">
-                            <!-- Llenado dinámico -->
-                        </tbody>
+                        <tbody id="tbody-d2"></tbody>
                     </table>
                     <div id="empty-d2" class="empty-state" style="display: none;">
-                        <div class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="11" cy="11" r="8"></circle>
-                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                            </svg></div>
+                        <div class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></div>
                         <p>No se encontraron resultados</p>
                         <small>Intenta ajustando los filtros o la búsqueda</small>
                     </div>
@@ -496,18 +448,17 @@
              ═══════════════════════════════════════════════ -->
         <div id="dataset3" class="tab-content">
 
-            <div class="info-box">
-                <div class="info-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            <div class="tab-context tab-context--teal">
+                <div class="tab-context-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <line x1="12" y1="20" x2="12" y2="10"></line>
                         <line x1="18" y1="20" x2="18" y2="4"></line>
                         <line x1="6" y1="20" x2="6" y2="16"></line>
                     </svg></div>
-                <div class="info-content">
+                <div>
                     <p><strong>Padrón General de Instituciones:</strong> Visión completa de la situación de conectividad
                         de escuelas, hospitales, oficinas y seguridad en el Estado.</p>
-                    <p>Las instituciones se dividen en 3 niveles de prioridad: Nivel 1 (Baja prioridad, ya en red
-                        estatal), Nivel 2 (Media, pagan internet privado), y Nivel 3 (Alta, sin conexión).</p>
+                    <p>Las instituciones se dividen en: Nivel 1 (Baja prioridad, ya en red estatal), Nivel 2 (Media, pagan internet privado), y Nivel 3 (Alta, sin conexión).</p>
                 </div>
             </div>
 
@@ -569,13 +520,13 @@
             <div class="two-col">
                 <div class="chart-card">
                     <div class="chart-header">
-                        <h3><span class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        <h3><span class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
                                     stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round">
                                     <line x1="12" y1="20" x2="12" y2="10"></line>
                                     <line x1="18" y1="20" x2="18" y2="4"></line>
                                     <line x1="6" y1="20" x2="6" y2="16"></line>
-                                </svg></span> Instituciones por Sector y Nivel de Prioridad</h3>
+                                </svg></span> Instituciones por Sector y Nivel</h3>
                     </div>
                     <div class="chart-wrapper">
                         <canvas id="chart-sectores"></canvas>
@@ -583,12 +534,12 @@
                 </div>
                 <div class="chart-card">
                     <div class="chart-header">
-                        <h3><span class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        <h3><span class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
                                     stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round">
                                     <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
                                     <circle cx="12" cy="10" r="3"></circle>
-                                </svg></span> Top 10 Municipios con más Instituciones</h3>
+                                </svg></span> Top 10 Municipios</h3>
                     </div>
                     <div class="chart-wrapper">
                         <canvas id="chart-municipios"></canvas>
@@ -601,8 +552,7 @@
                 <div class="table-header">
                     <h3><span class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2">
-                                </path>
+                                <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
                                 <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
                             </svg></span> Listado del Padrón Unificado</h3>
                 </div>
@@ -610,15 +560,11 @@
                 <div class="filters-bar">
                     <div class="filter-group">
                         <label class="filter-label" for="d3-filter-mun">Municipio</label>
-                        <select id="d3-filter-mun" class="filter-select" onchange="renderTableD3()">
-                            <option value="all">Todos los municipios</option>
-                        </select>
+                        <select id="d3-filter-mun" class="filter-select" onchange="renderTableD3()"><option value="all">Todos los municipios</option></select>
                     </div>
                     <div class="filter-group">
                         <label class="filter-label" for="d3-filter-sec">Sector</label>
-                        <select id="d3-filter-sec" class="filter-select" onchange="renderTableD3()">
-                            <option value="all">Todos los sectores</option>
-                        </select>
+                        <select id="d3-filter-sec" class="filter-select" onchange="renderTableD3()"><option value="all">Todos los sectores</option></select>
                     </div>
                     <div class="filter-group">
                         <label class="filter-label" for="d3-filter-ipc">Nivel IPC</label>
@@ -630,11 +576,7 @@
                         </select>
                     </div>
                     <button class="btn-reset" onclick="resetFilters('d3')">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
-                            <path d="M3 3v5h5" />
-                        </svg>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" /><path d="M3 3v5h5" /></svg>
                         Restablecer
                     </button>
                 </div>
@@ -650,15 +592,10 @@
                                 <th onclick="sortTableD3('ipc')">Nivel IPC <span class="sort-arrow">▼</span></th>
                             </tr>
                         </thead>
-                        <tbody id="tbody-d3">
-                        </tbody>
+                        <tbody id="tbody-d3"></tbody>
                     </table>
                     <div id="empty-d3" class="empty-state" style="display: none;">
-                        <div class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="11" cy="11" r="8"></circle>
-                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                            </svg></div>
+                        <div class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></div>
                         <p>No se encontraron resultados</p>
                     </div>
                 </div>
@@ -678,15 +615,10 @@
     </footer>
 
     <!-- Scripts externos -->
-    <!-- PapaParse para leer CSVs -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-    <!-- Chart.js para gráficas -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Leaflet para el mapa interactivo -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-
-    <!-- Script principal de la aplicación -->
     <script src="js/app.js"></script>
 </body>
 

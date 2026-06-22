@@ -34,7 +34,35 @@ const colors = {
 };
 
 Chart.defaults.font.family = "'Outfit', 'Inter', sans-serif";
-Chart.defaults.color = colors.text;
+Chart.defaults.color = '#5A5A6E';
+Chart.defaults.plugins.legend.labels.usePointStyle = true;
+Chart.defaults.plugins.legend.labels.pointStyle = 'circle';
+Chart.defaults.plugins.legend.labels.padding = 16;
+Chart.defaults.plugins.tooltip.backgroundColor = '#1A1A2E';
+Chart.defaults.plugins.tooltip.titleFont = { family: "'Outfit', sans-serif", weight: '700', size: 13 };
+Chart.defaults.plugins.tooltip.bodyFont = { family: "'Inter', sans-serif", size: 12 };
+Chart.defaults.plugins.tooltip.cornerRadius = 8;
+Chart.defaults.plugins.tooltip.padding = 10;
+
+// ═══════════════════════════════════════════════
+// Animación CountUp para KPIs
+// ═══════════════════════════════════════════════
+function animateCountUp(element, targetValue, suffix = '', duration = 900) {
+    const isFloat = String(targetValue).includes('.');
+    const start = 0;
+    const end = parseFloat(targetValue);
+    if (isNaN(end)) { element.textContent = targetValue; return; }
+    const startTime = performance.now();
+    function update(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3); // easeOutCubic
+        const current = start + (end - start) * eased;
+        element.textContent = isFloat ? current.toFixed(isFloat ? (String(targetValue).split('.')[1] || '').length : 0) : Math.round(current).toLocaleString();
+        if (progress < 1) requestAnimationFrame(update);
+    }
+    requestAnimationFrame(update);
+}
 
 // ═══════════════════════════════════════════════
 // Inicialización
@@ -45,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
         loadCSV('data/torres_propuestas_actualizado.csv'),
         loadCSV('data/migraciones_posibles.csv'),
         loadCSV('data/Dataset_Instituciones_Unificadas.csv'),
-        fetch('INFORMACION TORRES.txt').then(r => r.json()).catch(e => { console.warn("No se pudo cargar torres", e); return []; })
+        fetch('data/INFORMACION TORRES.txt').then(r => r.json()).catch(e => { console.warn("No se pudo cargar torres", e); return []; })
     ]).then(([d1, d2, d3, torres]) => {
         
         // Función para limpiar caracteres corruptos  (U+FFFD)
@@ -235,22 +263,25 @@ function initFilters() {
  */
 function calcularKPIs() {
     // --- D1 ---
-    document.getElementById('d1-kpi-torres').textContent = filteredD1.length;
+    animateCountUp(document.getElementById('d1-kpi-torres'), filteredD1.length);
     const sitiosBen = filteredD1.reduce((sum, row) => sum + (Number(row.cantidad_instituciones) || 0), 0);
-    document.getElementById('d1-kpi-sitios').textContent = sitiosBen.toLocaleString();
+    animateCountUp(document.getElementById('d1-kpi-sitios'), sitiosBen);
     const sumDist = filteredD1.reduce((sum, row) => sum + (Number(row.dist_km_torre_estatal_mas_cercana) || 0), 0);
-    document.getElementById('d1-kpi-dist').textContent = filteredD1.length > 0 ? (sumDist / filteredD1.length).toFixed(2) : 0;
+    const avgDist = filteredD1.length > 0 ? (sumDist / filteredD1.length).toFixed(2) : '0';
+    animateCountUp(document.getElementById('d1-kpi-dist'), avgDist);
     const vistas = filteredD1.filter(row => row.linea_vista === true || String(row.linea_vista).toLowerCase() === 'true').length;
-    document.getElementById('d1-kpi-vista').textContent = filteredD1.length > 0 ? ((vistas / filteredD1.length) * 100).toFixed(1) : 0;
+    const vistasPct = filteredD1.length > 0 ? ((vistas / filteredD1.length) * 100).toFixed(1) : '0';
+    animateCountUp(document.getElementById('d1-kpi-vista'), vistasPct);
 
     // --- D2 ---
-    document.getElementById('d2-kpi-inst').textContent = filteredD2.length.toLocaleString();
+    animateCountUp(document.getElementById('d2-kpi-inst'), filteredD2.length);
     const sumProx = filteredD2.reduce((sum, row) => sum + (Number(row.dist_km) || 0), 0);
-    document.getElementById('d2-kpi-prox').textContent = filteredD2.length > 0 ? (sumProx / filteredD2.length).toFixed(2) : 0;
-    document.getElementById('d2-kpi-prov').textContent = new Set(filteredD2.map(row => String(row.proveedor).toUpperCase()).filter(p => p && p !== 'UNDEFINED')).size;
+    const avgProx = filteredD2.length > 0 ? (sumProx / filteredD2.length).toFixed(2) : '0';
+    animateCountUp(document.getElementById('d2-kpi-prox'), avgProx);
+    animateCountUp(document.getElementById('d2-kpi-prov'), new Set(filteredD2.map(row => String(row.proveedor).toUpperCase()).filter(p => p && p !== 'UNDEFINED')).size);
 
     // --- D3 ---
-    document.getElementById('d3-kpi-total').textContent = filteredD3.length.toLocaleString();
+    animateCountUp(document.getElementById('d3-kpi-total'), filteredD3.length);
     
     let n1 = 0, n2 = 0, n3 = 0;
     filteredD3.forEach(row => {
@@ -261,9 +292,9 @@ function calcularKPIs() {
     });
 
     const total = filteredD3.length || 1;
-    document.getElementById('d3-kpi-n1').textContent = ((n1 / total) * 100).toFixed(1);
-    document.getElementById('d3-kpi-n2').textContent = ((n2 / total) * 100).toFixed(1);
-    document.getElementById('d3-kpi-n3').textContent = ((n3 / total) * 100).toFixed(1);
+    animateCountUp(document.getElementById('d3-kpi-n1'), ((n1 / total) * 100).toFixed(1));
+    animateCountUp(document.getElementById('d3-kpi-n2'), ((n2 / total) * 100).toFixed(1));
+    animateCountUp(document.getElementById('d3-kpi-n3'), ((n3 / total) * 100).toFixed(1));
 }
 
 // ═══════════════════════════════════════════════
@@ -279,49 +310,44 @@ function renderMap() {
     if (!map) {
         map = L.map('map-torres', {zoomControl: false}).setView([29.2972, -110.3309], 6);
         L.control.zoom({position: 'topleft'}).addTo(map);
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r.png', {
-            attribution: '&copy; OpenStreetMap &copy; CARTO'
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>',
+            subdomains: 'abcd',
+            maxZoom: 19
         }).addTo(map);
 
         // Control de leyenda y filtros del mapa
         const legend = L.control({position: 'topright'});
         legend.onAdd = function (map) {
             const div = L.DomUtil.create('div', 'map-legend');
-            div.style.backgroundColor = 'white';
-            div.style.padding = '12px';
-            div.style.borderRadius = '8px';
-            div.style.boxShadow = '0 4px 6px rgba(0,0,0,0.1)';
-            div.style.fontFamily = 'Inter, sans-serif';
-            div.style.fontSize = '13px';
-            div.style.color = '#333';
             
             div.innerHTML = `
-                <h4 style="margin: 0 0 10px 0; font-size: 14px; font-weight: 600; color: #4B0028;">Filtros del Mapa</h4>
-                <label style="display: flex; align-items: center; margin-bottom: 8px; cursor: pointer; user-select: none;">
-                    <input type="checkbox" id="filter-towers" style="margin-right: 8px; accent-color: #4B0028; cursor: pointer;">
-                    <span style="display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: #4B0028; margin-right: 6px;"></span>
+                <h4>Filtros del Mapa</h4>
+                <label>
+                    <input type="checkbox" id="filter-towers">
+                    <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #4B0028; margin-right: 6px;"></span>
                     Torres Estatales
                 </label>
-                <label style="display: flex; align-items: center; margin-bottom: 8px; cursor: pointer; user-select: none;">
-                    <input type="checkbox" id="filter-proposed-towers" style="margin-right: 8px; accent-color: #D6B35F; cursor: pointer;">
+                <label>
+                    <input type="checkbox" id="filter-proposed-towers">
                     <span style="display: inline-flex; align-items: center; justify-content: center; width: 14px; height: 14px; margin-right: 6px;">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="#D6B35F" stroke="#7D0042" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3" fill="#FFF"></circle></svg>
                     </span>
                     Torres Propuestas
                 </label>
-                <label style="display: flex; align-items: center; margin-bottom: 8px; cursor: pointer; user-select: none;">
-                    <input type="checkbox" checked id="filter-direct" style="margin-right: 8px; accent-color: #CC6C22; cursor: pointer;">
-                    <span style="display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: rgba(204, 108, 34, 0.8); border: 1px solid #CC6C22; margin-right: 6px;"></span>
+                <label>
+                    <input type="checkbox" checked id="filter-direct">
+                    <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: rgba(204, 108, 34, 0.9); border: 2px solid #CC6C22; margin-right: 6px;"></span>
                     Clústeres (Línea de Vista)
                 </label>
-                <label style="display: flex; align-items: center; margin-bottom: 8px; cursor: pointer; user-select: none;">
-                    <input type="checkbox" checked id="filter-obstructed" style="margin-right: 8px; accent-color: #8A004F; cursor: pointer;">
-                    <span style="display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: rgba(138, 0, 79, 0.8); border: 1px solid #8A004F; margin-right: 6px;"></span>
+                <label>
+                    <input type="checkbox" checked id="filter-obstructed">
+                    <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: rgba(138, 0, 79, 0.9); border: 2px solid #8A004F; margin-right: 6px;"></span>
                     Clústeres (Obstruidos)
                 </label>
-                <label style="display: flex; align-items: center; cursor: pointer; user-select: none;">
-                    <input type="checkbox" id="filter-institutions" style="margin-right: 8px; accent-color: #0F766E; cursor: pointer;">
-                    <span style="display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: #0F766E; margin-right: 6px;"></span>
+                <label>
+                    <input type="checkbox" id="filter-institutions">
+                    <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #0F766E; margin-right: 6px;"></span>
                     Instituciones
                 </label>
             `;
@@ -499,14 +525,20 @@ function renderCharts() {
     const safeGradient = (colorHex, isHoriz) => (context) => {
         if (context.type !== 'data' || !colorHex) return colorHex;
         const {ctx, chartArea} = context.chart;
-        if (!chartArea || chartArea.bottom === 0) return colorHex;
+        if (!chartArea) return colorHex;
 
         let r = parseInt(colorHex.slice(1, 3), 16), g = parseInt(colorHex.slice(3, 5), 16), b = parseInt(colorHex.slice(5, 7), 16);
-        let grad = isHoriz ? ctx.createLinearGradient(chartArea.left, 0, chartArea.right, 0) 
-                           : ctx.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
-        grad.addColorStop(0, `rgba(${r}, ${g}, ${b}, 0.2)`);
-        grad.addColorStop(1, `rgba(${r}, ${g}, ${b}, 0.95)`);
-        return grad;
+        
+        try {
+            let grad = isHoriz ? ctx.createLinearGradient(chartArea.left || 0, 0, chartArea.right || 0, 0) 
+                               : ctx.createLinearGradient(0, chartArea.bottom || 0, 0, chartArea.top || 0);
+            grad.addColorStop(0, `rgba(${r}, ${g}, ${b}, 0.2)`);
+            grad.addColorStop(1, `rgba(${r}, ${g}, ${b}, 0.95)`);
+            return grad;
+        } catch (e) {
+            // Fallback if canvas is not ready or coordinates are invalid
+            return colorHex;
+        }
     };
 
     const getArrayGradient = (colorsArr, isHoriz) => (context) => {
